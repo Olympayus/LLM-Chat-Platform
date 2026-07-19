@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  mysql:
+    image: mysql:5.7.26
+    ports: ["3306:3306"]
+    environment: { MYSQL_ROOT_PASSWORD: root123, MYSQL_DATABASE: llm_platform }
+    volumes: [mysql_data:/var/lib/mysql, ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init.sql]
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  elasticsearch:
+    image: elasticsearch:8.17.0
+    ports: ["9200:9200"]
+    environment: { discovery.type: single-node, xpack.security.enabled: "false" }
+volumes:
+  mysql_data:
